@@ -15,24 +15,28 @@ const Progress = () => {
 
   const mouseMove = (e) => {
     if(start) {
-      let v=Math.round(100-(e.nativeEvent.pageY-ref.current.getBoundingClientRect().y)*100/ref.current.clientHeight);
+      // let v=Math.round(100-e.nativeEvent.offsetY*100/ref.current.clientHeight);
+      let v=Math.round(100-(e.nativeEvent.clientY-ref.current.getBoundingClientRect().top)*100/ref.current.clientHeight);
       if(v>100) {
         v=100;
       } else if(v<0) {
         v=0;
       }
       setValue(v)
+      e.stopPropagation();
     } 
   }
   const moveTo = (e) => {
     setStart(true);
-    let v=Math.round(100-(e.nativeEvent.pageY-ref.current.getBoundingClientRect().y)*100/ref.current.clientHeight);
+    let v=Math.round(100-(e.nativeEvent.clientY-ref.current.getBoundingClientRect().top)*100/ref.current.clientHeight);
+    // let v=Math.round(100-(e.nativeEvent.pageY-ref.current.getBoundingClientRect().top)*100/ref.current.clientHeight);
     if(v>100) {
       v=100;
     } else if(v<0) {
       v=0;
     }
     setValue(v)
+    e.stopPropagation();
   }
   return (
     <>
