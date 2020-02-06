@@ -124,11 +124,7 @@ const Progress = () => {
           <span>100</span>
           <span>0</span>
         </div>
-        <div className="progress-bar" 
-          // onMouseMove={(e)=>mouseMove(e)}
-          // onMouseDown={(e)=>{moveTo(e)}}
-          // onMouseUp={(e)=>setStart(false)}
-        >
+        <div className="progress-bar" >
           <div className="value" style={{height: value+'%'}}>
             <div className="value-tag" ref={ref1}>
               <div className="div">
