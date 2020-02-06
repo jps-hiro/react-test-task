@@ -119,7 +119,7 @@ const Progress = () => {
   })
   return (
     <>
-      <div className="progress" ref={ref}>
+      <div className={start?"progress cursor":"progress"} ref={ref} >
         <div className="progress-label">
           <span>100</span>
           <span>0</span>
