@@ -7,7 +7,7 @@ import { faBitcoin } from "@fortawesome/free-brands-svg-icons";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { gql } from 'apollo-boost';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useSubscription } from '@apollo/react-hooks';
 
 const EXCHANGE_RATES = gql`
   {
@@ -22,9 +22,9 @@ const EXCHANGE_RATES = gql`
     }
   }
 `;
-const COMMENTS_SUBSCRIPTION = gql`
-  subscription onBetAdded($bet: BET!) {
-    betAdded(bet: $bet) {
+const BET_ADDED_SUBSCRIPTION = gql`
+  subscription {
+    betAdded {
       id
       time
       name
@@ -35,8 +35,11 @@ const COMMENTS_SUBSCRIPTION = gql`
     }
   }
 `;
+
+
 const BetsDataTable = () => {
   const { data } = useQuery(EXCHANGE_RATES);
+  console.log(data);
   
   return (
     <>
