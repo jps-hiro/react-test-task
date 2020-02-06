@@ -15,33 +15,23 @@ const Progress = () => {
 
   const mouseMove = (e) => {
     if(start) {
-      // let v=Math.round(100-e.nativeEvent.offsetY*100/ref.current.clientHeight);
       let v
-      if(e.nativeEvent.touches) {
-        v=Math.round(100-(e.nativeEvent.touches[0].clientY-ref.current.getBoundingClientRect().top)*100/ref.current.clientHeight);
-      } else {  
-        v=Math.round(100-(e.nativeEvent.clientY-ref.current.getBoundingClientRect().top)*100/ref.current.clientHeight);
-      }
+      v=Math.round(100-(e.clientY-ref.current.getBoundingClientRect().top)*100/ref.current.clientHeight);
       if(v>100) {
         v=100;
       } else if(v<0) {
         v=0;
       }
       setValue(v)
-      // e.nativeEvent.stopPropagation();
-      e.preventDefault();
-      e.returnValue = false;
-      return false
     } 
+    e.preventDefault();
+    e.returnValue = false;
+    return false
   }
   const moveTo = (e) => {
     setStart(true);
     let v
-    if(e.nativeEvent.touches) {
-      v=Math.round(100-(e.nativeEvent.touches[0].clientY-ref.current.getBoundingClientRect().top)*100/ref.current.clientHeight);
-    } else {  
-      v=Math.round(100-(e.nativeEvent.clientY-ref.current.getBoundingClientRect().top)*100/ref.current.clientHeight);
-    }
+    v=Math.round(100-(e.nativeEvent.clientY-ref.current.getBoundingClientRect().top)*100/ref.current.clientHeight);
     if(v>100) {
       v=100;
     } else if(v<0) {
@@ -68,7 +58,6 @@ const Progress = () => {
         v=0;
       }
       setValue(v)
-      // e.nativeEvent.stopPropagation();
       e.preventDefault();
       e.returnValue = false;
       return false
