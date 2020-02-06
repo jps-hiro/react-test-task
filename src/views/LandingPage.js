@@ -24,8 +24,8 @@ const LandingPage = () => {
             </div>
           </div>
           
-          <div className="col col-3">
-            <div className="card h-100">
+          <div className="col col-3 ">
+            <div className="card h-100 ">
               <BetsDataTable />
             </div>
           </div>
