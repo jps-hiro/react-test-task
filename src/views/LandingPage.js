@@ -1,16 +1,12 @@
 import React from "react";
 import "./LandingPage.scss";
 
-import Modal from 'react-modal';
-
 import { connect } from "react-redux";
 
 
 import Progress from "../components/Progress";
 import BetsDataTable from "../components/BetsDataTable";
 import Shell from "../components/Shell";
-
-Modal.setAppElement('#modal-element')
 
 const LandingPage = () => {
 

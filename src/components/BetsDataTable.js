@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./BetsDataTable.scss";
 import { withRouter } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -40,7 +40,7 @@ const BetsDataTable = () => {
   var originData = useQuery(EXCHANGE_RATES).data;
   
   
-  const { loading, error, data: betAdded } = useSubscription(
+  const { loading, data: betAdded } = useSubscription(
     COMMENTS_SUBSCRIPTION
   );
   if(!loading) {
@@ -66,7 +66,7 @@ const BetsDataTable = () => {
           {originData &&
             originData.bets.map((item, index) => {
               return (
-                <tr key={index} className={index==originData.bets.length-1?"new-bet":""}>
+                <tr key={index} className={index===originData.bets.length-1?"new-bet":""}>
                   <td className="td-1">
                     {new Date(item.time).toLocaleString("en-GB")}
                   </td>
