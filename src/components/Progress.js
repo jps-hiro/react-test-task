@@ -14,28 +14,7 @@ const Progress = () => {
   const ref = useRef(null);
   const ref1 = useRef(null);
 
-  const mouseMove = (e) => {
-    if(start) {
-      let v
-      v=Math.round(100-(e.clientY-ref.current.getBoundingClientRect().top)*100/ref.current.clientHeight);
-      if(v>100) {
-        v=100;
-      } else if(v<0) {
-        v=0;
-      }
-      setValue(v)
-    } 
-    e.preventDefault();
-    e.returnValue = false;
-    return false
-  }
-  const moveTo = (e) => {
-    
-    if(e.clientX>ref1.current.getBoundingClientRect().right ||
-      e.clientX<ref1.current.getBoundingClientRect().left) return;
-    setStart(true);
-    let v
-    v=Math.round(100-(e.clientY-ref.current.getBoundingClientRect().top)*100/ref.current.clientHeight);
+  const move = (e, v) => {
     if(v>100) {
       v=100;
     } else if(v<0) {
@@ -45,6 +24,22 @@ const Progress = () => {
     e.preventDefault();
     e.returnValue = false;
     return false
+  }
+
+  const mouseMove = (e) => {
+    if(start) {
+      let v
+      v=Math.round(100-(e.clientY-ref.current.getBoundingClientRect().top)*100/ref.current.clientHeight);
+      move(e, v);
+    } 
+  }
+  const moveTo = (e) => {
+    if(e.clientX>ref1.current.getBoundingClientRect().right ||
+      e.clientX<ref1.current.getBoundingClientRect().left) return;
+    setStart(true);
+    let v
+    v=Math.round(100-(e.clientY-ref.current.getBoundingClientRect().top)*100/ref.current.clientHeight);
+    move(e, v);
   }
   const moveUp = (e) => {
     setStart(false);
@@ -59,15 +54,7 @@ const Progress = () => {
       } else {  
         v=0;
       }
-      if(v>100) {
-        v=100;
-      } else if(v<0) {
-        v=0;
-      }
-      setValue(v)
-      e.preventDefault();
-      e.returnValue = false;
-      return false
+      move(e, v);
     } 
   }
   const touchStart = (e) => {
@@ -79,15 +66,7 @@ const Progress = () => {
     if(e.touches) {
       v=Math.round(100-(e.touches[0].clientY-ref.current.getBoundingClientRect().top)*100/ref.current.clientHeight);
     }
-    if(v>100) {
-      v=100;
-    } else if(v<0) {
-      v=0;
-    }
-    setValue(v)
-    e.preventDefault();
-    e.returnValue = false;
-    return false
+    move(e, v);
   }
   useEffect(()=>{
     if(ref.current) {
