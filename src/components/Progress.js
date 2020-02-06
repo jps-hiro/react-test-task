@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect, createRef } from "react";
 import "./Progress.scss";
 import { withRouter } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,8 +14,6 @@ const Progress = () => {
   const ref = useRef(null);
 
   const mouseMove = (e) => {
-    
-    e.nativeEvent.preventDefault();
     if(start) {
       // let v=Math.round(100-e.nativeEvent.offsetY*100/ref.current.clientHeight);
       let v
@@ -31,6 +29,8 @@ const Progress = () => {
       }
       setValue(v)
       // e.nativeEvent.stopPropagation();
+      e.preventDefault();
+      e.returnValue = false;
       return false
     } 
   }
@@ -48,10 +48,67 @@ const Progress = () => {
       v=0;
     }
     setValue(v)
-    // e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault();
+    e.returnValue = false;
     return false
   }
+  
+  const touchMove = (e) => {
+    console.log(e)
+    if(start) {
+      let v
+      if(e.touches) {
+        v=Math.round(100-(e.touches[0].clientY-ref.current.getBoundingClientRect().top)*100/ref.current.clientHeight);
+      } else {  
+        v=0;
+      }
+      if(v>100) {
+        v=100;
+      } else if(v<0) {
+        v=0;
+      }
+      setValue(v)
+      // e.nativeEvent.stopPropagation();
+      e.preventDefault();
+      e.returnValue = false;
+      return false
+    } 
+  }
+  const touchStart = (e) => {
+    console.log(e)
+    setStart(true);
+    let v=0
+    if(e.touches) {
+      v=Math.round(100-(e.touches[0].clientY-ref.current.getBoundingClientRect().top)*100/ref.current.clientHeight);
+    }
+    if(v>100) {
+      v=100;
+    } else if(v<0) {
+      v=0;
+    }
+    setValue(v)
+    e.preventDefault();
+    e.returnValue = false;
+    return false
+  }
+  useEffect(()=>{
+    if(ref.current) {
+      ref.current.addEventListener("touchstart", touchStart);
+      ref.current.addEventListener("touchmove", touchMove, {
+        passive: false
+      });
+    }
+
+    return () => {
+      if (ref.current) {
+        ref.current.removeEventListener("touchstart", touchStart);
+        ref.current.removeEventListener("touchmove", touchMove, {
+          passive: false
+        });
+      }
+    };
+
+  })
   return (
     <>
       <div className="progress">
@@ -64,10 +121,6 @@ const Progress = () => {
           ref={ref}
           onMouseMove={(e)=>mouseMove(e)}
           onMouseDown={(e)=>{moveTo(e)}}
-          onTouchMove={(e)=>mouseMove(e)}
-          onTouchStart={(e)=>{moveTo(e)}}
-          onTouchEnd={(e)=>setStart(false)}
-          onTouchCancel={(e)=>setStart(false)}
           onMouseUp={(e)=>setStart(false)}
         >
           <div className="value" style={{height: value+'%'}}>
