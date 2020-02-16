@@ -76,6 +76,11 @@ body {
     display: none;
   } 
 }
+.hide-tablet {
+  @media (max-width: 1300px) {
+    display: none;
+  } 
+}
 .modal-open {
   overflow: hidden;
 }
