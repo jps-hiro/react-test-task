@@ -58,7 +58,7 @@ const Progress = () => {
     } 
   }
   const touchStart = (e) => {
-    if(e.touches[0].clientX>ref1.current.getBoundingClientRect().right ||
+    if(e.touches[0].clientX>ref2.current.getBoundingClientRect().right ||
       e.touches[0].clientX<ref1.current.getBoundingClientRect().left) return;
     setStart(true);
     let v=0
@@ -69,6 +69,7 @@ const Progress = () => {
   }
   useEffect(()=>{
     document.addEventListener('mouseup', moveUp);
+    document.addEventListener('touchend', moveUp);
     if(ref.current) {
       ref.current.addEventListener("touchstart", touchStart);
       ref.current.addEventListener("mousedown", moveTo);
@@ -83,6 +84,7 @@ const Progress = () => {
 
     return () => {
       document.addEventListener('mouseup', moveUp);
+      document.addEventListener('touchend', moveUp);
       if (ref.current) {
         ref.current.removeEventListener("touchstart", touchStart);
         ref.current.removeEventListener("mousedown", moveTo);
