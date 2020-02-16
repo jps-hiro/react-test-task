@@ -68,6 +68,7 @@ const Progress = () => {
     move(e, v);
   }
   useEffect(()=>{
+    document.addEventListener('mouseup', moveUp);
     if(ref.current) {
       ref.current.addEventListener("touchstart", touchStart);
       ref.current.addEventListener("mousedown", moveTo);
@@ -81,6 +82,7 @@ const Progress = () => {
     }
 
     return () => {
+      document.addEventListener('mouseup', moveUp);
       if (ref.current) {
         ref.current.removeEventListener("touchstart", touchStart);
         ref.current.removeEventListener("mousedown", moveTo);
