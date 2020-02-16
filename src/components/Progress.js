@@ -13,6 +13,7 @@ const Progress = () => {
   const [start, setStart] = useState(false);
   const ref = useRef(null);
   const ref1 = useRef(null);
+  const ref2 = useRef(null);
 
   const move = (e, v) => {
     if(v>100) {
@@ -34,7 +35,7 @@ const Progress = () => {
     } 
   }
   const moveTo = (e) => {
-    if(e.clientX>ref1.current.getBoundingClientRect().right ||
+    if(e.clientX>ref2.current.getBoundingClientRect().right ||
       e.clientX<ref1.current.getBoundingClientRect().left) return;
     setStart(true);
     let v
@@ -46,7 +47,6 @@ const Progress = () => {
   }
   
   const touchMove = (e) => {
-    console.log(e)
     if(start) {
       let v
       if(e.touches) {
@@ -58,7 +58,6 @@ const Progress = () => {
     } 
   }
   const touchStart = (e) => {
-    console.log(e)
     if(e.touches[0].clientX>ref1.current.getBoundingClientRect().right ||
       e.touches[0].clientX<ref1.current.getBoundingClientRect().left) return;
     setStart(true);
@@ -106,7 +105,7 @@ const Progress = () => {
         <div className="progress-bar" >
           <div className="value" style={{height: value+'%'}}>
             <div className="value-tag" ref={ref1}>
-              <div className="div">
+              <div className="div" ref={ref2}>
                 <div className="arrow"></div>
                 <span>{value}</span>
               </div>
