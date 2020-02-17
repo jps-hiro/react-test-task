@@ -71,7 +71,6 @@ const Progress = () => {
     }
     move(e, v);
   }
-  const handle
   useEffect(()=>{
     document.addEventListener('mouseup', moveUp);
     document.addEventListener('touchend', moveUp);
