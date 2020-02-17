@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import Progress from "../components/Progress";
 import BetsDataTable from "../components/BetsDataTable";
 import Shell from "../components/Shell";
+import ProgressEx from "../components/ProgressEx";
 
 const LandingPage = () => {
 
@@ -16,7 +17,7 @@ const LandingPage = () => {
         <div className="row">
           <div className="col col-2">
             <div className="card">
-              <Progress />
+              <ProgressEx />
             </div>
           </div>
           

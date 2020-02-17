@@ -7,6 +7,8 @@ import { faBitcoin } from "@fortawesome/free-brands-svg-icons";
 import { compose } from "redux";
 import { connect } from "react-redux";
 
+var clicked = false;
+
 const Progress = () => {
   
   const [value, setValue] = useState(64);
@@ -28,7 +30,7 @@ const Progress = () => {
   }
 
   const mouseMove = (e) => {
-    if(start) {
+    if(start && ref && ref.current) {
       let v
       v=Math.round(100-(e.clientY-ref.current.getBoundingClientRect().top)*100/ref.current.clientHeight);
       move(e, v);
@@ -38,12 +40,14 @@ const Progress = () => {
     if(e.clientX>ref2.current.getBoundingClientRect().right ||
       e.clientX<ref1.current.getBoundingClientRect().left) return;
     setStart(true);
+    clicked = true
     let v
     v=Math.round(100-(e.clientY-ref.current.getBoundingClientRect().top)*100/ref.current.clientHeight);
     move(e, v);
   }
   const moveUp = (e) => {
     setStart(false);
+    clicked = false;
   }
   
   const touchMove = (e) => {
@@ -67,9 +71,13 @@ const Progress = () => {
     }
     move(e, v);
   }
+  const handle
   useEffect(()=>{
     document.addEventListener('mouseup', moveUp);
     document.addEventListener('touchend', moveUp);
+    // document.addEventListener("mousemove", mouseMove, {
+    //   passive: false
+    // });
     if(ref.current) {
       ref.current.addEventListener("touchstart", touchStart);
       ref.current.addEventListener("mousedown", moveTo);
@@ -77,6 +85,7 @@ const Progress = () => {
       ref.current.addEventListener("touchmove", touchMove, {
         passive: false
       });
+      
       ref.current.addEventListener("mousemove", mouseMove, {
         passive: false
       });
@@ -85,16 +94,13 @@ const Progress = () => {
     return () => {
       document.addEventListener('mouseup', moveUp);
       document.addEventListener('touchend', moveUp);
+      // document.removeEventListener('touchend', mouseMove);
       if (ref.current) {
         ref.current.removeEventListener("touchstart", touchStart);
         ref.current.removeEventListener("mousedown", moveTo);
         ref.current.removeEventListener("mouseup", moveUp);
-        ref.current.removeEventListener("touchmove", touchMove, {
-          passive: false
-        });
-        ref.current.removeEventListener("mousemove", mouseMove, {
-          passive: false
-        });
+        ref.current.removeEventListener("touchmove", touchMove);
+        ref.current.removeEventListener("mousemove", mouseMove);
       }
     };
 
