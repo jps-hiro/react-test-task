@@ -30,14 +30,31 @@ const ProgressEx = () => {
     v=Math.round(100-(e.clientY-ref.current.getBoundingClientRect().top)*100/ref.current.clientHeight);
     move(e, v);
   }
+  const handleTouchMove = e => {
+    let v
+    if(e.touches) {
+      v=Math.round(100-(e.touches[0].clientY-ref.current.getBoundingClientRect().top)*100/ref.current.clientHeight);
+    } else {  
+      v=0;
+    }
+    move(e, v);
+  }
   const handleMouseUp = () => {
     document.removeEventListener('mouseup', handleMouseUp);
     document.removeEventListener('mousemove', handleMouseMove);
   };
-  const handleMouseDown = event => {
-    document.addEventListener('mousemove', handleMouseMove);
+  const handleMouseDown = () => {
+    document.addEventListener('mousemove', handleMouseMove, {passive: false});
     document.addEventListener('mouseup', handleMouseUp);
   };
+  const handleTouchEnd = () => {
+    document.removeEventListener('touchmove', handleTouchMove);
+    document.removeEventListener('touchend', handleTouchEnd);
+  }
+  const handleTouchStart =()=> {
+    document.addEventListener('touchmove', handleTouchMove, {passive: false});
+    document.addEventListener('touchend', handleTouchEnd);
+  }
   return (
     <>
       <div className={start?"progress cursor":"progress"} ref={ref} >
@@ -47,7 +64,7 @@ const ProgressEx = () => {
         </div>
         <div className="progress-bar" >
           <div className="value" style={{height: value+'%'}}>
-            <div className="value-tag" ref={ref1} onMouseDown={handleMouseDown}>
+            <div className="value-tag" ref={ref1} onTouchStart={handleTouchStart} onMouseDown={handleMouseDown}>
               <div className="div" ref={ref2}>
                 <div className="arrow"></div>
                 <span>{value}</span>
