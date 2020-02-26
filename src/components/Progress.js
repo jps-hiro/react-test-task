@@ -91,8 +91,8 @@ const Progress = () => {
     }
 
     return () => {
-      document.addEventListener('mouseup', moveUp);
-      document.addEventListener('touchend', moveUp);
+      document.removeEventListener('mouseup', moveUp);
+      document.removeEventListener('touchend', moveUp);
       // document.removeEventListener('touchend', mouseMove);
       if (ref.current) {
         ref.current.removeEventListener("touchstart", touchStart);
